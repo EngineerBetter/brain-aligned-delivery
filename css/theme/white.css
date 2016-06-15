@@ -46,8 +46,8 @@ html.ravens div.slide-background.present {
   background-repeat: no-repeat, no-repeat;
   background-size: 95%, 93.5%; }
 
-html.pain div.slide-background.present {
-  background-image: url("/images/clipped-16x9-nofill.svg"), url("/images/deej.jpg");
+html.holacracy div.slide-background.present {
+  background-image: url("/images/clipped-16x9-nofill.svg"), url("/images/holocracy.jpg");
   background-position: top-center, top-center;
   background-repeat: no-repeat, no-repeat;
   background-size: 95%, 93.5%; }
