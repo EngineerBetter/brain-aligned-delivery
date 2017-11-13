@@ -36,6 +36,7 @@ jobs:
     trigger: true
   - put: cf-dev
     params:
+      path: brain-aligned-delivery
       manifest: brain-aligned-delivery/manifest-dev.yml
 
 - name: deploy-staging
