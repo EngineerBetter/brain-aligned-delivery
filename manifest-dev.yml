@@ -10,3 +10,6 @@ applications:
   - route: eb-hugo-dev.cfapps.io/bad
   - route: eb-hugo-dev.engineerbetter.com/brain-aligned-delivery
   - route: eb-hugo-dev.engineerbetter.com/bad
+  - route: brain-aligned-delivery-dev.engineerbetter.com
+  env:
+    REDIRECT_HOST: brain-aligned-delivery-dev.engineerbetter.com
