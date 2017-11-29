@@ -7,9 +7,7 @@ applications:
   buildpack: staticfile_buildpack
   routes:
   - route: eb-hugo-prod.cfapps.io/brain-aligned-delivery
-  - route: eb-hugo-prod.cfapps.io/bad
   - route: www.engineerbetter.com/brain-aligned-delivery
-  - route: www.engineerbetter.com/bad
   - route: brain-aligned-delivery.engineerbetter.com
   env:
     REDIRECT_HOST: brain-aligned-delivery.engineerbetter.com
