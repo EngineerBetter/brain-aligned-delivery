@@ -29,7 +29,7 @@ jobs:
     passed: [set-pipeline]
   - get: kf-pipelines
   - task: kf-push
-    file: kf-pipelines/ci/tasks/kf-push/task.yml
+    file: kf-pipelines/ci/tasks/kf-cli/task.yml
     vars:
       kf_version: ((ebkf-prod-version))
     input_mapping:
