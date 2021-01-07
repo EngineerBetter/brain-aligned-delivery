@@ -5,6 +5,10 @@ applications:
     memory: 64M
     instances: 1
     buildpack: staticfile_buildpack
+    # Routing done by Istio VS
+    #routes:
+    #  - route: eb-hugo-dev.engineerbetter.com/brain-aligned-delivery
+    #  - route: brain-aligned-delivery-dev.engineerbetter.com
     no-route: true
     env:
       REDIRECT_HOST: brain-aligned-delivery-dev.engineerbetter.com

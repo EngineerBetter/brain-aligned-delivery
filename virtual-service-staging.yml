@@ -1,0 +1,66 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  annotations:
+    kf.dev/domain: engineerbetter.com
+  labels:
+    app.kubernetes.io/component: virtualservice
+    app.kubernetes.io/managed-by: kf
+  name: brain-aligned-delivery
+  namespace: staging
+spec:
+  gateways:
+    - kf/external-gateway
+  hosts:
+    - "*.engineerbetter.com"
+  http:
+    - match:
+        - authority:
+            exact: brain-aligned-delivery-staging.engineerbetter.com
+          headers:
+            x-kf-app:
+              exact: brain-aligned-delivery
+          uri:
+            regex: ^(/.*)?
+      route:
+        - destination:
+            host: brain-aligned-delivery
+            port:
+              number: 80
+          weight: 100
+    - match:
+        - authority:
+            exact: brain-aligned-delivery-staging.engineerbetter.com
+          uri:
+            regex: ^(/.*)?
+      route:
+        - destination:
+            host: brain-aligned-delivery
+            port:
+              number: 80
+          weight: 100
+    - match:
+        - authority:
+            exact: eb-hugo-staging.engineerbetter.com
+          headers:
+            x-kf-app:
+              exact: brain-aligned-delivery
+          uri:
+            regex: ^/brain-aligned-delivery(/.*)?
+      route:
+        - destination:
+            host: brain-aligned-delivery
+            port:
+              number: 80
+          weight: 100
+    - match:
+        - authority:
+            exact: eb-hugo-staging.engineerbetter.com
+          uri:
+            regex: ^/brain-aligned-delivery(/.*)?
+      route:
+        - destination:
+            host: brain-aligned-delivery
+            port:
+              number: 80
+          weight: 100
