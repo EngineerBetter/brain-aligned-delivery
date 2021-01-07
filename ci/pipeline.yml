@@ -48,10 +48,19 @@ jobs:
   - get: brain-aligned-delivery
     passed: [deploy-dev]
     trigger: true
-  # - put: cf-staging
-  #   params:
-  #     path: brain-aligned-delivery
-  #     manifest: brain-aligned-delivery/manifest-staging.yml
+  - task: kf-push
+    file: kf-pipelines/ci/tasks/kf-cli/task.yml
+    vars:
+      kf_version: ((ebkf-prod-version))
+    input_mapping:
+      manifest: brain-aligned-delivery
+      source: brain-aligned-delivery
+    params:
+      MANIFEST: manifest-staging.yml
+      GOOGLE_CREDENTIALS: ((ebkf-prod-app-developer-creds.gcp_credentials_json))
+      REGION: ((ebkf-prod-app-developer-creds.region))
+      CLUSTER: ((ebkf-prod-app-developer-creds.cluster_name))
+      SPACE: staging
 
 - name: deploy-prod
   serial: true
@@ -59,7 +68,16 @@ jobs:
   - get: brain-aligned-delivery
     passed: [deploy-staging]
     trigger: false
-  # - put: cf-prod
-  #   params:
-  #     path: brain-aligned-delivery
-  #     manifest: brain-aligned-delivery/manifest-prod.yml
+  - task: kf-push
+    file: kf-pipelines/ci/tasks/kf-cli/task.yml
+    vars:
+      kf_version: ((ebkf-prod-version))
+    input_mapping:
+      manifest: brain-aligned-delivery
+      source: brain-aligned-delivery
+    params:
+      MANIFEST: manifest-prod.yml
+      GOOGLE_CREDENTIALS: ((ebkf-prod-app-developer-creds.gcp_credentials_json))
+      REGION: ((ebkf-prod-app-developer-creds.region))
+      CLUSTER: ((ebkf-prod-app-developer-creds.cluster_name))
+      SPACE: prod
