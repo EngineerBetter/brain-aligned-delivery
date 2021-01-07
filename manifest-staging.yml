@@ -1,13 +1,12 @@
 ---
 applications:
-- name: brain-aligned-delivery
-  disk: 184M
-  memory: 64M
-  instances: 1
-  buildpack: staticfile_buildpack
-  routes:
-  - route: eb-hugo-staging.cfapps.io/brain-aligned-delivery
-  - route: eb-hugo-staging.engineerbetter.com/brain-aligned-delivery
-  - route: brain-aligned-delivery-staging.engineerbetter.com
-  env:
-    REDIRECT_HOST: brain-aligned-delivery-staging.engineerbetter.com
+  - name: brain-aligned-delivery
+    disk_quota: 184M
+    memory: 64M
+    instances: 1
+    buildpack: staticfile_buildpack
+    routes:
+      - route: eb-hugo-staging.engineerbetter.com/brain-aligned-delivery
+      - route: brain-aligned-delivery-staging.engineerbetter.com
+    env:
+      REDIRECT_HOST: brain-aligned-delivery-staging.engineerbetter.com
