@@ -48,6 +48,7 @@ jobs:
   - get: brain-aligned-delivery
     passed: [deploy-dev]
     trigger: true
+  - get: kf-pipelines
   - task: kf-push
     file: kf-pipelines/ci/tasks/kf-cli/task.yml
     vars:
@@ -68,6 +69,7 @@ jobs:
   - get: brain-aligned-delivery
     passed: [deploy-staging]
     trigger: false
+  - get: kf-pipelines
   - task: kf-push
     file: kf-pipelines/ci/tasks/kf-cli/task.yml
     vars:
