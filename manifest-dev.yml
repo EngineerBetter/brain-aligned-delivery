@@ -5,8 +5,5 @@ applications:
     memory: 64M
     instances: 1
     buildpack: staticfile_buildpack
-    routes:
-      - route: eb-hugo-dev.engineerbetter.com/brain-aligned-delivery
-      - route: brain-aligned-delivery-dev.engineerbetter.com
     env:
       REDIRECT_HOST: brain-aligned-delivery-dev.engineerbetter.com
