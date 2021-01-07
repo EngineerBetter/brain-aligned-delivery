@@ -28,6 +28,17 @@ jobs:
     trigger: true
     passed: [set-pipeline]
   - get: kf-pipelines
+  - task: setup-routes
+    file: kf-pipelines/ci/tasks/kubectl-with-gcp/task.yml
+    vars:
+      kf_version: ((ebkf-prod-version))
+    input_mapping:
+      input: brain-aligned-delivery
+    params:
+      GOOGLE_CREDENTIALS: ((ebkf-prod-app-developer-creds.gcp_credentials_json))
+      REGION: ((ebkf-prod-app-developer-creds.region))
+      CLUSTER: ((ebkf-prod-app-developer-creds.cluster_name))
+      ARGS: apply -f virtual-service-dev.yml
   - task: kf-push
     file: kf-pipelines/ci/tasks/kf-cli/task.yml
     vars:
@@ -41,6 +52,14 @@ jobs:
       REGION: ((ebkf-prod-app-developer-creds.region))
       CLUSTER: ((ebkf-prod-app-developer-creds.cluster_name))
       SPACE: development
+
+- name: deploy-staging
+  serial: true
+  plan:
+  - get: brain-aligned-delivery
+    passed: [deploy-dev]
+    trigger: true
+  - get: kf-pipelines
   - task: setup-routes
     file: kf-pipelines/ci/tasks/kubectl-with-gcp/task.yml
     vars:
@@ -51,15 +70,7 @@ jobs:
       GOOGLE_CREDENTIALS: ((ebkf-prod-app-developer-creds.gcp_credentials_json))
       REGION: ((ebkf-prod-app-developer-creds.region))
       CLUSTER: ((ebkf-prod-app-developer-creds.cluster_name))
-      ARGS: apply -f virtual-service-dev.yml
-
-- name: deploy-staging
-  serial: true
-  plan:
-  - get: brain-aligned-delivery
-    passed: [deploy-dev]
-    trigger: true
-  - get: kf-pipelines
+      ARGS: apply -f virtual-service-staging.yml
   - task: kf-push
     file: kf-pipelines/ci/tasks/kf-cli/task.yml
     vars:
@@ -73,6 +84,14 @@ jobs:
       REGION: ((ebkf-prod-app-developer-creds.region))
       CLUSTER: ((ebkf-prod-app-developer-creds.cluster_name))
       SPACE: staging
+
+- name: deploy-prod
+  serial: true
+  plan:
+  - get: brain-aligned-delivery
+    passed: [deploy-staging]
+    trigger: false
+  - get: kf-pipelines
   - task: setup-routes
     file: kf-pipelines/ci/tasks/kubectl-with-gcp/task.yml
     vars:
@@ -83,15 +102,7 @@ jobs:
       GOOGLE_CREDENTIALS: ((ebkf-prod-app-developer-creds.gcp_credentials_json))
       REGION: ((ebkf-prod-app-developer-creds.region))
       CLUSTER: ((ebkf-prod-app-developer-creds.cluster_name))
-      ARGS: apply -f virtual-service-staging.yml
-
-- name: deploy-prod
-  serial: true
-  plan:
-  - get: brain-aligned-delivery
-    passed: [deploy-staging]
-    trigger: false
-  - get: kf-pipelines
+      ARGS: apply -f virtual-service-prod.yml
   - task: kf-push
     file: kf-pipelines/ci/tasks/kf-cli/task.yml
     vars:
@@ -105,14 +116,3 @@ jobs:
       REGION: ((ebkf-prod-app-developer-creds.region))
       CLUSTER: ((ebkf-prod-app-developer-creds.cluster_name))
       SPACE: production
-  - task: setup-routes
-    file: kf-pipelines/ci/tasks/kubectl-with-gcp/task.yml
-    vars:
-      kf_version: ((ebkf-prod-version))
-    input_mapping:
-      input: brain-aligned-delivery
-    params:
-      GOOGLE_CREDENTIALS: ((ebkf-prod-app-developer-creds.gcp_credentials_json))
-      REGION: ((ebkf-prod-app-developer-creds.region))
-      CLUSTER: ((ebkf-prod-app-developer-creds.cluster_name))
-      ARGS: apply -f virtual-service-prod.yml
