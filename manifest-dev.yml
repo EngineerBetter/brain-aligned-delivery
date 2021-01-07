@@ -5,5 +5,6 @@ applications:
     memory: 64M
     instances: 1
     buildpack: staticfile_buildpack
+    no-route: true
     env:
       REDIRECT_HOST: brain-aligned-delivery-dev.engineerbetter.com
