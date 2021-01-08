@@ -42,7 +42,7 @@ jobs:
     input_mapping:
       input: brain-aligned-delivery
     params:
-      ARGS: push --space dev --manifest input/manifest-dev.yml --path input
+      ARGS: push --space development --manifest input/manifest-dev.yml --path input
 
 - name: deploy-staging
   serial: true
